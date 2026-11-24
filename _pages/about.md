@@ -15,7 +15,6 @@ redirect_from:
   <div class="hero-copy">
     <p class="eyebrow">GRASP Lab · University of Pennsylvania</p>
     <h1 id="home-title">Samarth Chopra</h1>
-    <p class="hero-lede">I build scene models for robots that navigate and manipulate in the physical world.</p>
     <p class="hero-bio">I’m a PhD student in Electrical and Systems Engineering at Penn’s <a href="https://www.grasp.upenn.edu/">GRASP Lab</a> and an NSF Graduate Research Fellow. My research uses 3D reconstruction and physical property estimation to build simulations for evaluating robot policies.</p>
     <div class="hero-actions">
       <a class="button" href="#research">Explore my research</a>
