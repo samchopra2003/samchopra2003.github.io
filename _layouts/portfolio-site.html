@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% assign canonical = page.url | replace: '/index.html', '/' | absolute_url %}
+  {% assign page_title = page.seo_title | default: page.title %}
+  {% if page.url != '/' %}{% assign page_title = page_title | append: ' | ' | append: site.name %}{% endif %}
+  {% assign description = page.description | default: page.excerpt | default: site.description %}
+  {% assign portrait = site.author.avatar | prepend: '/images/' %}
+  <title>{{ page_title | escape }}</title>
+  <meta name="description" content="{{ description | strip_html | strip_newlines | escape }}">
+  <link rel="canonical" href="{{ canonical }}">
+  <meta property="og:type" content="{% if page.collection == 'publications' %}article{% elsif page.url == '/' %}profile{% else %}website{% endif %}">
+  <meta property="og:site_name" content="{{ site.name | escape }}">
+  <meta property="og:title" content="{{ page_title | escape }}">
+  <meta property="og:description" content="{{ description | strip_html | strip_newlines | escape }}">
+  <meta property="og:url" content="{{ canonical }}">
+  {% assign share_image = page.image | default: portrait %}
+  {% unless share_image contains '://' %}{% assign share_image = share_image | absolute_url %}{% endunless %}
+  <meta property="og:image" content="{{ share_image | escape }}">
+  <meta property="og:image:alt" content="{{ page.image_alt | default: site.name | escape }}">
+  <meta name="twitter:card" content="summary{% if page.image %}_large_image{% endif %}">
+  {% if page.noindex %}<meta name="robots" content="noindex">{% endif %}
+  {% if site.google_site_verification %}<meta name="google-site-verification" content="{{ site.google_site_verification | escape }}">{% endif %}
+  <link rel="icon" type="image/png" sizes="192x192" href="{{ '/images/favicon-192x192.png' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/research-portfolio.css' | relative_url }}">
+  {% if page.url == '/' %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": {{ canonical | append: '#website' | jsonify }},
+        "url": {{ canonical | jsonify }},
+        "name": {{ site.name | jsonify }}
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": {{ canonical | append: '#profile' | jsonify }},
+        "url": {{ canonical | jsonify }},
+        "name": {{ page_title | jsonify }},
+        "isPartOf": { "@id": {{ canonical | append: '#website' | jsonify }} },
+        "mainEntity": {
+          "@type": "Person",
+          "@id": {{ canonical | append: '#samarth-chopra' | jsonify }},
+          "name": {{ site.name | jsonify }},
+          "url": {{ canonical | jsonify }},
+          "image": {{ portrait | absolute_url | jsonify }},
+          "description": {{ description | jsonify }},
+          "affiliation": {
+            "@type": "CollegeOrUniversity",
+            "name": "University of Pennsylvania",
+            "url": "https://www.upenn.edu/"
+          },
+          "alumniOf": {
+            "@type": "CollegeOrUniversity",
+            "name": "University of Pittsburgh",
+            "url": "https://www.pitt.edu/"
+          },
+          "sameAs": {{ site.social.links | jsonify }}
+        }
+      }
+    ]
+  }
+  </script>
+  {% endif %}
+  {% if page.collection == 'publications' %}
+  <meta name="citation_title" content="{{ page.title | escape }}">
+  {% for author in page.authors %}
+  <meta name="citation_author" content="{{ author | escape }}">
+  {% endfor %}
+  <meta name="citation_publication_date" content="{{ page.date | date: '%Y/%m/%d' }}">
+  {% if page.category == 'conferences' %}<meta name="citation_conference_title" content="{{ page.venue | escape }}">{% endif %}
+  {% if page.doi %}<meta name="citation_doi" content="{{ page.doi | escape }}">{% endif %}
+  {% endif %}
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="wordmark" href="{{ '/' | relative_url }}"{% if page.url == '/' %} aria-current="page"{% endif %}>Samarth Chopra</a>
+      <nav aria-label="Main navigation">
+        <a href="{{ '/' | relative_url }}#research">Research</a>
+        <a href="{{ '/publications/' | relative_url }}"{% if page.url contains '/publication' %} aria-current="page"{% endif %}>Publications</a>
+        <a href="{{ '/cv/' | relative_url }}"{% if page.url == '/cv/' %} aria-current="page"{% endif %}>CV</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" tabindex="-1">
+    {{ content }}
+  </main>
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <div>
+        <a class="wordmark" href="{{ '/' | relative_url }}">Samarth Chopra</a>
+        <p>GRASP Lab · University of Pennsylvania</p>
+      </div>
+      <nav aria-label="External profiles">
+        {% include profile-links.html %}
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
