@@ -1,36 +1,32 @@
 ---
-layout: archive
-title: "Publications"
+layout: portfolio-site
+title: Publications
+description: Research papers by Samarth Chopra on physical property estimation, real-to-sim, robot manipulation, and autonomous navigation.
 permalink: /publications/
-author_profile: true
+author_profile: false
+sitemap: true
+noindex: false
 ---
-
-{% if site.author.googlescholar %}
-  <div class="wordwrap">You can also find my articles on <a href="{{site.author.googlescholar}}">my Google Scholar profile</a>.</div>
-{% endif %}
-
-{% include base_path %}
-
-<!-- New style rendering if publication categories are defined -->
-{% if site.publication_category %}
-  {% for category in site.publication_category  %}
-    {% assign title_shown = false %}
-    {% for post in site.publications reversed %}
-      {% if post.category != category[0] %}
-        {% continue %}
-      {% endif %}
-      {% unless title_shown %}
-        <h2>{{ category[1].title }}</h2><hr />
-        {% assign title_shown = true %}
-      {% endunless %}
-      {% include archive-single.html %}
-    {% endfor %}
+<div class="wrap inner-page">
+  <header class="page-intro">
+    <h1>Publications</h1>
+    <p>Research on physical scene modeling, manipulation, and outdoor navigation. See <a href="{{ site.author.googlescholar | escape }}">Google Scholar</a> for my citation profile.</p>
+  </header>
+  {% assign publications = site.publications | sort: 'date' | reverse %}
+  {% assign years = publications | group_by_exp: 'publication', "publication.date | date: '%Y'" %}
+  {% for year in years %}
+  <section class="publication-year" aria-labelledby="year-{{ year.name }}">
+    <h2 id="year-{{ year.name }}">{{ year.name }}</h2>
+    <div class="publication-list">
+      {% for publication in year.items %}
+      <article class="publication-row">
+        <p class="eyebrow">{{ publication.venue_short | escape }}</p>
+        <h3><a href="{{ publication.url | relative_url }}">{{ publication.title | escape }}</a></h3>
+        {% include publication-authors.html publication=publication %}
+        {% include publication-links.html publication=publication %}
+      </article>
+      {% endfor %}
+    </div>
+  </section>
   {% endfor %}
-{% else %}
-  {% for post in site.publications reversed %}
-    {% include archive-single.html %}
-  {% endfor %}
-{% endif %}
-
-
-
+</div>

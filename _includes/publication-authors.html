@@ -1,0 +1,6 @@
+<p class="authors">
+  {%- for author in include.publication.authors -%}
+    {%- if author == site.name -%}<strong>{{ author | escape }}</strong>{%- else -%}{{ author | escape }}{%- endif -%}
+    {%- unless forloop.last -%}, {% endunless -%}
+  {%- endfor -%}
+</p>

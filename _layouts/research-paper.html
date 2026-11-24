@@ -1,0 +1,15 @@
+---
+layout: portfolio-site
+---
+<div class="wrap inner-page paper">
+  <a class="text-link back-link" href="{{ '/publications/' | relative_url }}">All publications</a>
+  <header class="page-intro">
+    <p class="eyebrow">{{ page.venue_short | escape }} · {{ page.date | date: '%Y' }}</p>
+    <h1>{{ page.title | escape }}</h1>
+    {% include publication-authors.html publication=page %}
+    {% include publication-links.html publication=page %}
+  </header>
+  <div class="paper-body">
+    {{ content }}
+  </div>
+</div>

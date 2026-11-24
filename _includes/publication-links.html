@@ -1,0 +1,7 @@
+{% assign publication = include.publication %}
+<div class="publication-links">
+  <a href="{{ publication.paperurl | escape }}">{{ publication.paper_label | default: 'Paper' }}</a>
+  {% if publication.preprint_url %}<a href="{{ publication.preprint_url | escape }}">arXiv</a>{% endif %}
+  {% if publication.project_url %}<a href="{{ publication.project_url | escape }}">Project page</a>{% endif %}
+  {% if publication.code_url %}<a href="{{ publication.code_url | escape }}">Code</a>{% endif %}
+</div>

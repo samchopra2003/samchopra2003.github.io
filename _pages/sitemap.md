@@ -1,37 +1,20 @@
 ---
-layout: archive
-title: "Sitemap"
+layout: portfolio-site
+title: Sitemap
+description: Pages and research papers on Samarth Chopra’s academic website.
 permalink: /sitemap/
-author_profile: true
+sitemap: false
+noindex: true
 ---
-
-{% include base_path %}
-
-A list of all the posts and pages found on the site. For you robots out there, there is an [XML version]({{ base_path }}/sitemap.xml) available for digesting as well.
-
-<h2>Pages</h2>
-{% for post in site.pages %}
-  {% include archive-single.html %}
-{% endfor %}
-
-<h2>Posts</h2>
-{% for post in site.posts %}
-  {% include archive-single.html %}
-{% endfor %}
-
-{% capture written_label %}'None'{% endcapture %}
-
-{% for collection in site.collections %}
-{% unless collection.output == false or collection.label == "posts" %}
-  {% capture label %}{{ collection.label }}{% endcapture %}
-  {% if label != written_label %}
-  <h2>{{ label }}</h2>
-  {% capture written_label %}{{ label }}{% endcapture %}
-  {% endif %}
-{% endunless %}
-{% for post in collection.docs %}
-  {% unless collection.output == false or collection.label == "posts" %}
-  {% include archive-single.html %}
-  {% endunless %}
-{% endfor %}
-{% endfor %}
+<div class="wrap inner-page">
+  <header class="page-intro"><h1>Sitemap</h1></header>
+  <ul class="cv-list">
+    <li><a href="{{ '/' | relative_url }}">Home</a></li>
+    <li><a href="{{ '/publications/' | relative_url }}">Publications</a></li>
+    <li><a href="{{ '/cv/' | relative_url }}">CV</a></li>
+    {% assign publications = site.publications | sort: 'date' | reverse %}
+    {% for publication in publications %}
+    <li><a href="{{ publication.url | relative_url }}">{{ publication.title | escape }}</a></li>
+    {% endfor %}
+  </ul>
+</div>
